@@ -1,0 +1,17 @@
+1) Iniciar a aplicação
+dotnet run
+
+2) Instalar pacotes do arquivo .csproj
+dotnet restore
+
+
+3) Iniciar a aplicação com o Watcher*
+dotnet watch run
+
+4) Comandos para gerenciar o Entity Framework*
+dotnet ef
+
+5) Ajuda para os comandos do Entity Framework (o help pode ser utilizado em qualquer comando)
+dotnet ef <comando> --help
+
+* Necessita instalação de pacotes no arquivos .csproj
