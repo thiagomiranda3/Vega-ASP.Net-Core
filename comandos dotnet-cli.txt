@@ -1,25 +1,34 @@
-1) Iniciar a aplicação
+# 1) Iniciar a aplicação
 dotnet run
 
-2) Instalar pacotes do arquivo .csproj
+# 2) Instalar pacotes do arquivo .csproj
 dotnet restore
 
-3) Iniciar a aplicação com o Watcher*
+# 3) Iniciar a aplicação com o Watcher*
 dotnet watch run
 
-4) Comandos para gerenciar o Entity Framework*
+# 4) Comandos para gerenciar o Entity Framework*
 dotnet ef
 
-5) Ajuda para os comandos do Entity Framework (o help pode ser utilizado em qualquer comando)
+# 5) Ajuda para os comandos do Entity Framework (o help pode ser utilizado em qualquer comando)
 dotnet ef <comando> --help
 
-* Necessita instalação de pacotes no arquivos .csproj
+# 6) Criar uma migration
+dotnet ef migrations add NomeDaMigration
 
-Pacotes para instalar em um projeto novo
+# 7) Excluir uma migration não persistida no banco
+dotnet ef migrations remove
+
+# 8) Atualizar o banco com as novas migrations
+dotnet ef database update
+
+# * Necessita instalação de pacotes no arquivos .csproj
+
+# Pacotes para instalar em um projeto novo
 1) dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 2) dotnet add package Microsoft.EntityFrameworkCore.Design
 
-Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
+# Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
 <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
 </ItemGroup>
