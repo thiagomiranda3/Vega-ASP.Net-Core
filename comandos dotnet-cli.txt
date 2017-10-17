@@ -4,7 +4,6 @@ dotnet run
 2) Instalar pacotes do arquivo .csproj
 dotnet restore
 
-
 3) Iniciar a aplicação com o Watcher*
 dotnet watch run
 
@@ -15,3 +14,15 @@ dotnet ef
 dotnet ef <comando> --help
 
 * Necessita instalação de pacotes no arquivos .csproj
+
+Pacotes para instalar em um projeto novo
+1) dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+2) dotnet add package Microsoft.EntityFrameworkCore.Design
+
+Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
+<ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+</ItemGroup>
+<ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+</ItemGroup>
