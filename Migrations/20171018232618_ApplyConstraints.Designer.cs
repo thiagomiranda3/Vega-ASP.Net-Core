@@ -11,8 +11,8 @@ using Vega_ASP.Net_Core.Persistence;
 namespace VegaASP.NetCore.Migrations
 {
     [DbContext(typeof(VegaDbContext))]
-    [Migration("20171017013818_InitialModel")]
-    partial class InitialModel
+    [Migration("20171018232618_ApplyConstraints")]
+    partial class ApplyConstraints
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,7 +26,9 @@ namespace VegaASP.NetCore.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -40,13 +42,15 @@ namespace VegaASP.NetCore.Migrations
 
                     b.Property<int>("MakeId");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
                     b.HasIndex("MakeId");
 
-                    b.ToTable("Model");
+                    b.ToTable("Models");
                 });
 
             modelBuilder.Entity("Vega_ASP.Net_Core.Models.Model", b =>
