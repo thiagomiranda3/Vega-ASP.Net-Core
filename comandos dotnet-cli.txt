@@ -27,6 +27,8 @@ dotnet ef database update
 # Pacotes para instalar em um projeto novo
 1) dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 2) dotnet add package Microsoft.EntityFrameworkCore.Design
+3) dotnet add package AutoMapper
+4) dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 
 # Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
 <ItemGroup>
