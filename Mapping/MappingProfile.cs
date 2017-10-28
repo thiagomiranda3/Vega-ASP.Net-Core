@@ -10,6 +10,7 @@ namespace Vega_ASP.Net_Core.Mapping
         {
             CreateMap<Make, MakeResource>();
             CreateMap<Model, ModelResource>();
+            CreateMap<Feature, FeatureResource>();
         }
     }
 }
