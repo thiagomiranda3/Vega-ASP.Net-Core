@@ -9,6 +9,7 @@ using Vega_ASP.Net_Core.Persistence;
 
 namespace Vega_ASP.Net_Core.Controllers
 {
+    [Route("/api/features")]
     public class FeatureController
     {
         private readonly VegaDbContext context;
@@ -20,7 +21,7 @@ namespace Vega_ASP.Net_Core.Controllers
             this.mapper = mapper;
         }
 
-        [HttpGet("/api/features")]
+        [HttpGet]
         public async Task<IEnumerable<FeatureResource>> Get()
         {
             var makes = await context.Features.ToListAsync();
