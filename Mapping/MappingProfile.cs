@@ -2,6 +2,7 @@ using AutoMapper;
 using Vega_ASP.Net_Core.Controllers.Resources;
 using Vega_ASP.Net_Core.Models;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Vega_ASP.Net_Core.Mapping
 {
@@ -27,7 +28,21 @@ namespace Vega_ASP.Net_Core.Mapping
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
                 .ForMember(v => v.ContactPhone, opt => opt.MapFrom(vr => vr.Contact.Phone))
                 .ForMember(v => v.ContactEmail, opt => opt.MapFrom(vr => vr.Contact.Email))
-                .ForMember(v => v.Features, opt => opt.MapFrom(vr => vr.Features.Select(id => new VehicleFeature {FeatureId = id})));
+                .ForMember(v => v.Features, opt => opt.Ignore())
+                .AfterMap((vr, v) => {
+                    // Remover features não recebidas
+                    var removedFeatures = new List<VehicleFeature>();
+                    foreach(var f in v.Features)
+                        if(!vr.Features.Contains(f.FeatureId))
+                            removedFeatures.Add(f);
+                    foreach(var f in removedFeatures)
+                        v.Features.Remove(f);
+                    
+                    // Adicionar features novas
+                    foreach(var id in vr.Features)
+                        if(!v.Features.Any(f => f.FeatureId == id))
+                            v.Features.Add(new VehicleFeature {FeatureId = id});
+                });
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Vega_ASP.Net_Core.Controllers.Resources;
 using Vega_ASP.Net_Core.Models;
 using Vega_ASP.Net_Core.Persistence;
@@ -25,6 +26,7 @@ namespace Vega_ASP.Net_Core.Controllers
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            // Verificação para não causar erro 500 quando o ModelId passado não existir
             var model = await context.Models.FindAsync(vehicleResource.ModelId);
             if(model == null)
             {
@@ -55,7 +57,9 @@ namespace Vega_ASP.Net_Core.Controllers
                 return BadRequest(ModelState);
             }
 
-            var vehicle = await context.Vehicles.FindAsync(id);
+            var vehicle = await context.Vehicles
+                                       .Include(v => v.Features)
+                                       .SingleOrDefaultAsync(v => v.Id == id);
             mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
