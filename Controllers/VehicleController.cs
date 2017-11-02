@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,30 @@ namespace Vega_ASP.Net_Core.Controllers
         {
             this.context = context;
             this.mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var vehicles = await context.Vehicles
+                                       .Include(v => v.Features)
+                                       .ToListAsync();
+            if(vehicles == null)
+                return NotFound();
+
+            return Ok(mapper.Map<ICollection<Vehicle>, ICollection<VehicleResource>>(vehicles));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var vehicle = await context.Vehicles
+                                       .Include(v => v.Features)
+                                       .SingleOrDefaultAsync(v => v.Id == id);
+            if(vehicle == null)
+                return NotFound();
+
+            return Ok(mapper.Map<Vehicle, VehicleResource>(vehicle));
         }
 
         [HttpPost]
@@ -60,6 +85,10 @@ namespace Vega_ASP.Net_Core.Controllers
             var vehicle = await context.Vehicles
                                        .Include(v => v.Features)
                                        .SingleOrDefaultAsync(v => v.Id == id);
+
+            if(vehicle == null)
+                return NotFound();
+            
             mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
