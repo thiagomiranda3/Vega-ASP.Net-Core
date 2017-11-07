@@ -25,8 +25,11 @@ namespace Vega_ASP.Net_Core.Controllers
         public async Task<IActionResult> Get()
         {
             var vehicles = await context.Vehicles
-                                       .Include(v => v.Features)
-                                       .ToListAsync();
+                                        .Include(v => v.Features)
+                                        .ThenInclude(vf => vf.Feature)
+                                        .Include(v => v.Model)
+                                        .ThenInclude(m => m.Make)
+                                        .ToListAsync();
             if(vehicles == null)
                 return NotFound();
 
@@ -38,6 +41,9 @@ namespace Vega_ASP.Net_Core.Controllers
         {
             var vehicle = await context.Vehicles
                                        .Include(v => v.Features)
+                                       .ThenInclude(vf => vf.Feature)
+                                       .Include(v => v.Model)
+                                       .ThenInclude(m => m.Make)
                                        .SingleOrDefaultAsync(v => v.Id == id);
             if(vehicle == null)
                 return NotFound();
@@ -46,36 +52,43 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> Post([FromBody] SaveVehicleResource saveVehicleResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // Verificação para não causar erro 500 quando o ModelId passado não existir
-            var model = await context.Models.FindAsync(vehicleResource.ModelId);
+            var model = await context.Models.FindAsync(saveVehicleResource.ModelId);
             if(model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid ModelId");
                 return BadRequest(ModelState);
             }
 
-            var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
+            var vehicle = mapper.Map<SaveVehicleResource, Vehicle>(saveVehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
             context.Vehicles.Add(vehicle);
             await context.SaveChangesAsync();
+
+            vehicle = await context.Vehicles
+                                    .Include(v => v.Features)
+                                    .ThenInclude(vf => vf.Feature)
+                                    .Include(v => v.Model)
+                                    .ThenInclude(m => m.Make)
+                                    .SingleOrDefaultAsync(v => v.Id == vehicle.Id);
 
             var result = mapper.Map<Vehicle, VehicleResource>(vehicle);
             return Ok(result);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] VehicleResource vehicleResource)
+        public async Task<IActionResult> Put(int id, [FromBody] SaveVehicleResource saveVehicleResource)
         {
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await context.Models.FindAsync(vehicleResource.ModelId);
+            var model = await context.Models.FindAsync(saveVehicleResource.ModelId);
             if(model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid ModelId");
@@ -84,12 +97,15 @@ namespace Vega_ASP.Net_Core.Controllers
 
             var vehicle = await context.Vehicles
                                        .Include(v => v.Features)
+                                       .ThenInclude(vf => vf.Feature)
+                                       .Include(v => v.Model)
+                                       .ThenInclude(m => m.Make)
                                        .SingleOrDefaultAsync(v => v.Id == id);
 
             if(vehicle == null)
                 return NotFound();
             
-            mapper.Map<VehicleResource, Vehicle>(vehicleResource, vehicle);
+            mapper.Map<SaveVehicleResource, Vehicle>(saveVehicleResource, vehicle);
             vehicle.LastUpdate = DateTime.Now;
 
             await context.SaveChangesAsync();

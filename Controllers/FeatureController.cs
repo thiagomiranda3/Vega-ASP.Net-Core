@@ -22,10 +22,10 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<FeatureResource>> Get()
+        public async Task<IEnumerable<KeyValuePairResource>> Get()
         {
             var makes = await context.Features.ToListAsync();
-            return mapper.Map<List<Feature>, List<FeatureResource>>(makes);
+            return mapper.Map<List<Feature>, List<KeyValuePairResource>>(makes);
         }
     }
 }
