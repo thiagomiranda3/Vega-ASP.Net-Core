@@ -5,7 +5,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vega_ASP.Net_Core.Controllers.Resources;
-using Vega_ASP.Net_Core.Models;
+using Vega_ASP.Net_Core.Core;
+using Vega_ASP.Net_Core.Core.Models;
 using Vega_ASP.Net_Core.Persistence;
 
 namespace Vega_ASP.Net_Core.Controllers
@@ -16,10 +17,12 @@ namespace Vega_ASP.Net_Core.Controllers
         private readonly IMapper mapper;
         private readonly IVehicleRepository vehicleRepository;
         private readonly IUnitOfWork unitOfWork;
-        public VehicleController(IMapper mapper, IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork)
+        private readonly IModelRepository modelRepository;
+        public VehicleController(IMapper mapper, IVehicleRepository vehicleRepository, IModelRepository modelRepository, IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
             this.vehicleRepository = vehicleRepository;
+            this.modelRepository = modelRepository;
             this.mapper = mapper;
         }
 
@@ -50,7 +53,7 @@ namespace Vega_ASP.Net_Core.Controllers
                 return BadRequest(ModelState);
 
             // Verificação para não causar erro 500 quando o ModelId passado não existir
-            var model = await context.Models.FindAsync(saveVehicleResource.ModelId);
+            var model = await modelRepository.GetAsync(saveVehicleResource.ModelId, includeRelated: false);
             if (model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid ModelId");
@@ -75,7 +78,7 @@ namespace Vega_ASP.Net_Core.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var model = await context.Models.FindAsync(saveVehicleResource.ModelId);
+            var model = await modelRepository.GetAsync(saveVehicleResource.ModelId, includeRelated: false);
             if (model == null)
             {
                 ModelState.AddModelError("ModelId", "Invalid ModelId");

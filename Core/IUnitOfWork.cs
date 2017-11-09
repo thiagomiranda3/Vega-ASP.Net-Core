@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Vega_ASP.Net_Core.Persistence
+namespace Vega_ASP.Net_Core.Core
 {
     public interface IUnitOfWork
     {

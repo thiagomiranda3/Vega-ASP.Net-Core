@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Vega_ASP.Net_Core.Models;
+using Vega_ASP.Net_Core.Core.Models;
 
 namespace Vega_ASP.Net_Core.Persistence
 {

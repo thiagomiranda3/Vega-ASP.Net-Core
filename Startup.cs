@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Vega_ASP.Net_Core.Core;
 using Vega_ASP.Net_Core.Persistence;
 
 namespace Vega_ASP.Net_Core
@@ -27,6 +28,9 @@ namespace Vega_ASP.Net_Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IModelRepository, ModelRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddAutoMapper();
             services.AddDbContext<VegaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));

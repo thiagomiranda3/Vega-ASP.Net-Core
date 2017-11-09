@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Vega_ASP.Net_Core.Models;
+using Vega_ASP.Net_Core.Core;
+using Vega_ASP.Net_Core.Core.Models;
 
 namespace Vega_ASP.Net_Core.Persistence
 {
     public class VehicleRepository : IVehicleRepository
     {
         private readonly VegaDbContext context;
+        
         public VehicleRepository(VegaDbContext context)
         {
             this.context = context;

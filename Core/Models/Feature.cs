@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Vega_ASP.Net_Core.Models
+namespace Vega_ASP.Net_Core.Core.Models
 {
     [Table("Features")]
     public class Feature

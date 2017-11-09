@@ -1,6 +1,6 @@
 using AutoMapper;
 using Vega_ASP.Net_Core.Controllers.Resources;
-using Vega_ASP.Net_Core.Models;
+using Vega_ASP.Net_Core.Core.Models;
 using System.Linq;
 using System.Collections.Generic;
 
