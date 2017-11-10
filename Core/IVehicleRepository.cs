@@ -6,7 +6,7 @@ namespace Vega_ASP.Net_Core.Core
 {
     public interface IVehicleRepository
     {
-        Task<ICollection<Vehicle>> GetAllAsync(bool includeRelated = true);
+        Task<ICollection<Vehicle>> GetAllAsync(VehicleQuery filter, bool includeRelated = true);
         Task<Vehicle> GetAsync(int id, bool includeRelated = true);
         void Add(Vehicle vehicle);
         void Remove(Vehicle vehicle);

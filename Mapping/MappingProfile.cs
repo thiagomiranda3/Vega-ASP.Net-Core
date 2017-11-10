@@ -37,6 +37,7 @@ namespace Vega_ASP.Net_Core.Mapping
                 .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make));
                     
             // API Resource to Domain
+            CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())
                 .ForMember(v => v.ContactName, opt => opt.MapFrom(vr => vr.Contact.Name))
