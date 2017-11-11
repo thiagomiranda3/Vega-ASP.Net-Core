@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Vega_ASP.Net_Core.Core;
 using Vega_ASP.Net_Core.Core.Models;
+using Vega_ASP.Net_Core.Extensions;
 
 namespace Vega_ASP.Net_Core.Persistence
 {
@@ -43,10 +44,7 @@ namespace Vega_ASP.Net_Core.Persistence
                 ["id"] = v => v.Id
             };
 
-            if(queryObj.IsSortAscending)
-                query = query.OrderBy(columnsMap[queryObj.SortBy]);
-            else
-                query = query.OrderByDescending(columnsMap[queryObj.SortBy]);
+            query = query.ApplyOrdering(queryObj, columnsMap);
 
             return await query.ToListAsync();
         }
