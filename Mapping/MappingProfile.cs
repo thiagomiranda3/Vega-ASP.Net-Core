@@ -12,6 +12,7 @@ namespace Vega_ASP.Net_Core.Mapping
         {
             // Domain to API Resource
             CreateMap<Make, MakeResource>();
+            CreateMap<Feature, FeatureResource>();
             CreateMap<Make, KeyValuePairResource>();
             CreateMap<Model, KeyValuePairResource>();
             CreateMap<Feature, KeyValuePairResource>();
@@ -37,6 +38,7 @@ namespace Vega_ASP.Net_Core.Mapping
                 .ForMember(vr => vr.Make, opt => opt.MapFrom(v => v.Model.Make));
                     
             // API Resource to Domain
+            CreateMap<FeatureResource, Feature>();
             CreateMap<VehicleQueryResource, VehicleQuery>();
             CreateMap<SaveVehicleResource, Vehicle>()
                 .ForMember(v => v.Id, opt => opt.Ignore())

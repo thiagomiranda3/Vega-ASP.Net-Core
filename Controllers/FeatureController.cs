@@ -15,9 +15,11 @@ namespace Vega_ASP.Net_Core.Controllers
     {
         private readonly IMapper mapper;
         private readonly IFeatureRepository featureRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public FeatureController(IMapper mapper, IFeatureRepository featureRepository)
+        public FeatureController(IMapper mapper, IFeatureRepository featureRepository, IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.featureRepository = featureRepository;
             this.mapper = mapper;
         }
@@ -37,6 +39,20 @@ namespace Vega_ASP.Net_Core.Controllers
                 return NotFound();
 
             return Ok(mapper.Map<Feature, KeyValuePairResource>(vehicle));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] FeatureResource featureResource)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var feature = mapper.Map<FeatureResource, Feature>(featureResource);
+
+            featureRepository.Add(feature);
+            await unitOfWork.CompleteAsync();
+
+            return Ok(featureResource);
         }
     }
 }
