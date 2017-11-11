@@ -11,7 +11,7 @@ using Vega_ASP.Net_Core.Persistence;
 
 namespace Vega_ASP.Net_Core.Controllers
 {
-    [Route("/api/vehicle")]
+    [Route("/api/vehicles")]
     public class VehicleController : Controller
     {
         private readonly IMapper mapper;
