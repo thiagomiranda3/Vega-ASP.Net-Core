@@ -41,10 +41,10 @@ namespace Vega_ASP.Net_Core.Persistence
                 ["make"] = v => v.Model.Make.Name,
                 ["model"] = v => v.Model.Name,
                 ["contactName"] = v => v.ContactName,
-                ["id"] = v => v.Id
             };
 
             query = query.ApplyOrdering(queryObj, columnsMap);
+            query = query.ApplyPaging(queryObj);
 
             return await query.ToListAsync();
         }
