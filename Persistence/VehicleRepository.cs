@@ -19,8 +19,10 @@ namespace Vega_ASP.Net_Core.Persistence
             this.context = context;
         }
 
-        public async Task<ICollection<Vehicle>> GetAllAsync(VehicleQuery queryObj, bool includeRelated = true)
+        public async Task<QueryResult<Vehicle>> GetAllAsync(VehicleQuery queryObj, bool includeRelated = true)
         {
+            var result = new QueryResult<Vehicle>();
+
             var query = context.Vehicles.AsQueryable();
             
             if(includeRelated)
@@ -44,9 +46,14 @@ namespace Vega_ASP.Net_Core.Persistence
             };
 
             query = query.ApplyOrdering(queryObj, columnsMap);
+
+            result.TotalItems = await query.CountAsync();
+
             query = query.ApplyPaging(queryObj);
 
-            return await query.ToListAsync();
+            result.Items = await query.ToListAsync();
+
+            return result;
         }
 
         public async Task<Vehicle> GetAsync(int id, bool includeRelated = true)

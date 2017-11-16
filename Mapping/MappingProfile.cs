@@ -11,6 +11,7 @@ namespace Vega_ASP.Net_Core.Mapping
         public MappingProfile()
         {
             // Domain to API Resource
+            CreateMap(typeof(QueryResult<>), typeof(QueryResultResource<>));
             CreateMap<Make, MakeResource>();
             CreateMap<Feature, FeatureResource>();
             CreateMap<Make, KeyValuePairResource>();
