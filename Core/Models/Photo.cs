@@ -9,5 +9,8 @@ namespace Vega_ASP.Net_Core.Core.Models
         [Required]
         [StringLength(255)]
         public string FileName { get; set; }
+        public Vehicle Vehicle { get; set; }
+        public int VehicleId { get; set; }
+        
     }
 }
