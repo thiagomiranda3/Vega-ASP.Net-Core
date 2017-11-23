@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vega_ASP.Net_Core.Controllers.Resources;
@@ -25,6 +26,7 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IEnumerable<KeyValuePairResource>> Get()
         {
             var features = await featureRepository.GetAllAsync();

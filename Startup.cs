@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -28,13 +29,27 @@ namespace Vega_ASP.Net_Core
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             // Servidor de Autenticação
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = "https://vegaprojectcscore.auth0.com/";
+                options.Audience = "https://api.vega.com";
+            });
+
             // Injeção de dependências
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IModelRepository, ModelRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IMakeRepository, MakeRepository>();
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
 
+            // Configurações de domínio
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
             
             services.AddAutoMapper();

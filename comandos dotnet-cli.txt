@@ -30,6 +30,9 @@ dotnet ef database update
 3) dotnet add package AutoMapper
 4) dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 
+# Autenticação OAuth
+5) dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
 # Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
 <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />

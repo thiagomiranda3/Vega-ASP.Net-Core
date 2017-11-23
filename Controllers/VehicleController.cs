@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vega_ASP.Net_Core.Controllers.Resources;
@@ -46,6 +47,7 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post([FromBody] SaveVehicleResource saveVehicleResource)
         {
             if (!ModelState.IsValid)
@@ -72,6 +74,7 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromBody] SaveVehicleResource saveVehicleResource)
         {
             if (!ModelState.IsValid)
@@ -101,6 +104,7 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var vehicle = await vehicleRepository.GetAsync(id, includeRelated: false);
