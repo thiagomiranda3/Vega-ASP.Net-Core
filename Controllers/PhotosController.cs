@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,14 +22,29 @@ namespace Vega_ASP.Net_Core.Controllers
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly PhotoSettings options;
-        public PhotosController(IHostingEnvironment host, IVehicleRepository vehicleRepository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
+        private readonly IPhotoRepository photoRepository;
+
+        public PhotosController(IHostingEnvironment host, IVehicleRepository vehicleRepository, IPhotoRepository photoRepository, IUnitOfWork unitOfWork, IMapper mapper, IOptionsSnapshot<PhotoSettings> options)
         {
+            this.photoRepository = photoRepository;
             this.options = options.Value;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.vehicleRepository = vehicleRepository;
             this.host = host;
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPhotos(int vehicleId)
+        {
+            var vehicle = await vehicleRepository.GetAsync(vehicleId, includeRelated: false);
+            if (vehicle == null)
+                return NotFound();
+
+            var photos = await photoRepository.GetPhotosAsync(vehicleId);
+            return Ok(mapper.Map<IEnumerable<Photo>, IEnumerable<PhotoResource>>(photos));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Upload(int vehicleId, IFormFile file)
         {

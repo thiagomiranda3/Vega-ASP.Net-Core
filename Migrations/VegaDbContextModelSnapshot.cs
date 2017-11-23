@@ -75,7 +75,7 @@ namespace VegaASP.NetCore.Migrations
                         .IsRequired()
                         .HasMaxLength(255);
 
-                    b.Property<int?>("VehicleId");
+                    b.Property<int>("VehicleId");
 
                     b.HasKey("Id");
 
@@ -136,9 +136,10 @@ namespace VegaASP.NetCore.Migrations
 
             modelBuilder.Entity("Vega_ASP.Net_Core.Core.Models.Photo", b =>
                 {
-                    b.HasOne("Vega_ASP.Net_Core.Core.Models.Vehicle")
+                    b.HasOne("Vega_ASP.Net_Core.Core.Models.Vehicle", "Vehicle")
                         .WithMany("Photos")
-                        .HasForeignKey("VehicleId");
+                        .HasForeignKey("VehicleId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Vega_ASP.Net_Core.Core.Models.Vehicle", b =>

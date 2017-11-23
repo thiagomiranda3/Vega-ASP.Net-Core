@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Vega_ASP.Net_Core.Core.Models;
 
 namespace Vega_ASP.Net_Core.Controllers.Resources
 {
@@ -13,6 +14,7 @@ namespace Vega_ASP.Net_Core.Controllers.Resources
         public ContactResource Contact { get; set; }
         public DateTime LastUpdate { get; set; }
         public ICollection<KeyValuePairResource> Features { get; set;}
+        public ICollection<Photo> Photos { get; set; }
 
         public VehicleResource()
         {
