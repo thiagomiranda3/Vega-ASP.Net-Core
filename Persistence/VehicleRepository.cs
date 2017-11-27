@@ -27,16 +27,10 @@ namespace Vega_ASP.Net_Core.Persistence
             
             if(includeRelated)
                 query = query.Include(v => v.Features)
-                             .ThenInclude(vf => vf.Feature)
-                             .Include(v => v.Model)
-                             .ThenInclude(m => m.Make)
+                                .ThenInclude(vf => vf.Feature)
                              .AsQueryable();
-            
-            if(queryObj.MakeId.HasValue)
-                query = query.Where(v => v.Model.MakeId == queryObj.MakeId);
 
-            if(queryObj.MakeId.HasValue)
-                query = query.Where(v => v.ModelId == queryObj.ModelId);
+            query.ApplyFiltering(queryObj);
 
             var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>
             {
