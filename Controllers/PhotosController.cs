@@ -66,7 +66,7 @@ namespace Vega_ASP.Net_Core.Controllers
 
             var uploadsFolderPath = Path.Combine(host.WebRootPath, "uploads");
             
-            await photoService.UploadPhotoAsync(vehicle, file, uploadsFolderPath);
+            var photo = await photoService.UploadPhotoAsync(vehicle, file, uploadsFolderPath);
 
             return Ok(mapper.Map<Photo, PhotoResource>(photo));
         }

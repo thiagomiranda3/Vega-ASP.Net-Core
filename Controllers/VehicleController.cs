@@ -47,7 +47,6 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Post([FromBody] SaveVehicleResource saveVehicleResource)
         {
             if (!ModelState.IsValid)

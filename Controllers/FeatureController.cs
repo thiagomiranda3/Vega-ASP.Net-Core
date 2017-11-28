@@ -26,7 +26,6 @@ namespace Vega_ASP.Net_Core.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IEnumerable<KeyValuePairResource>> Get()
         {
             var features = await featureRepository.GetAllAsync();
