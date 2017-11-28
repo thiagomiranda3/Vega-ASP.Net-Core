@@ -15,6 +15,7 @@ using Vega_ASP.Net_Core.Core;
 using Vega_ASP.Net_Core.Core.Models;
 using Vega_ASP.Net_Core.Persistence;
 using Vega_ASP.Net_Core.Services;
+using Vega_ASP.Net_Core.Storages;
 
 namespace Vega_ASP.Net_Core
 {
@@ -50,6 +51,7 @@ namespace Vega_ASP.Net_Core
             services.AddScoped<IVehicleRepository, VehicleRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IPhotoStorage, FileSystemPhotoStorage>();
 
             // Configurações de domínio
             services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
