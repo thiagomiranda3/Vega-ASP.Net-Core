@@ -22,6 +22,9 @@ dotnet ef migrations remove
 # 8) Atualizar o banco com as novas migrations
 dotnet ef database update
 
+# 9) Criar o secret do appsettings.json (depois do set vem o atributo que deseja ter o value oculto)
+dotnet user-secrets set ConnectionStrings:Default "o valor que deseja esconder como um secret"
+
 # * Necessita instalação de pacotes no arquivos .csproj
 
 # Pacotes para instalar em um projeto novo
@@ -29,6 +32,7 @@ dotnet ef database update
 2) dotnet add package Microsoft.EntityFrameworkCore.Design
 3) dotnet add package AutoMapper
 4) dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+5) dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 
 # Autenticação OAuth
 5) dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
@@ -36,7 +40,13 @@ dotnet ef database update
 # Pacotes que expandem o dotnet CLI para adicionar no .csproj (Adicionar logo no início do arquivo)
 <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
-</ItemGroup>
-<ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />
+    <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.0" />
 </ItemGroup>
+
+# Adicionar <UserSecretsId> dentro de <PropertyGroup>
+<PropertyGroup>
+    <UserSecretsId>valor-unico</UserSecretsId>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    ...
+</PropertyGroup>
